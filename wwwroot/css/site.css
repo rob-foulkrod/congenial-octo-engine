@@ -1,0 +1,225 @@
+:root {
+  --app-bg: #09131f;
+  --app-panel: rgba(12, 24, 38, 0.82);
+  --app-panel-strong: rgba(18, 33, 50, 0.96);
+  --app-border: rgba(148, 163, 184, 0.18);
+  --app-text: #e2e8f0;
+  --app-muted: #94a3b8;
+  --app-accent: #14b8a6;
+  --app-accent-strong: #0f766e;
+  --app-warm: #f59e0b;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem rgba(9, 19, 31, 0.9), 0 0 0 0.25rem rgba(20, 184, 166, 0.45);
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.22), transparent 30%),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.22), transparent 28%),
+    linear-gradient(180deg, #0b1726 0%, #09131f 100%);
+  color: var(--app-text);
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+a {
+  color: #67e8f9;
+}
+
+.app-nav,
+.footer,
+.hero-panel,
+.todo-board,
+.content-panel {
+  background: var(--app-panel);
+  border: 1px solid var(--app-border);
+  backdrop-filter: blur(16px);
+}
+
+.app-nav {
+  border-radius: 1.25rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.navbar-brand,
+.nav-link,
+.footer,
+.board-caption,
+.hero-copy,
+.todo-meta {
+  color: var(--app-text) !important;
+}
+
+.nav-link {
+  opacity: 0.85;
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+  color: white !important;
+}
+
+.hero-panel,
+.todo-board,
+.content-panel {
+  border-radius: 1.75rem;
+  padding: 2rem;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(20, 184, 166, 0.14);
+  color: #99f6e4;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.stat-card,
+.todo-entry-card,
+.todo-item,
+.empty-state {
+  background: var(--app-panel-strong);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1.25rem;
+}
+
+.stat-card {
+  padding: 1rem;
+}
+
+.stat-label {
+  display: block;
+  color: var(--app-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+}
+
+.todo-entry-card {
+  padding: 1.5rem;
+}
+
+.form-control {
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: var(--app-text);
+}
+
+.form-control::placeholder {
+  color: #64748b;
+}
+
+.form-control:focus {
+  background: rgba(15, 23, 42, 0.92);
+  border-color: rgba(20, 184, 166, 0.7);
+  color: var(--app-text);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--app-accent) 0%, #22d3ee 100%);
+  border: none;
+  color: #06202b;
+  font-weight: 700;
+}
+
+.btn-accent:hover {
+  background: linear-gradient(135deg, #2dd4bf 0%, #67e8f9 100%);
+  color: #04151d;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.todo-item.is-complete {
+  border-color: rgba(20, 184, 166, 0.35);
+}
+
+.todo-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.is-complete .todo-title {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.todo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer {
+  margin: 1.5rem auto;
+  border-radius: 1rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 1rem 0;
+}
+
+@media (max-width: 767.98px) {
+  .hero-panel,
+  .todo-board,
+  .content-panel {
+    padding: 1.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .todo-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
