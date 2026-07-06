@@ -1,0 +1,88 @@
+﻿@model TodoPageViewModel
+@{
+    ViewData["Title"] = "Todo Dashboard";
+}
+
+<section class="hero-panel shadow-lg">
+    <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+            <span class="eyebrow">MVC Todo App</span>
+            <h1 class="display-4 fw-semibold mb-3">Stay on top of the next thing that matters.</h1>
+            <p class="hero-copy mb-4">
+                A clean .NET 10 Todo app with a lightweight in-memory provider today, and room for Redis, Cosmos, or PostgreSQL providers later.
+            </p>
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <span class="stat-label">Open</span>
+                    <strong class="stat-value">@Model.RemainingCount</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Done</span>
+                    <strong class="stat-value">@Model.CompletedCount</strong>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-label">Total</span>
+                    <strong class="stat-value">@Model.Items.Count</strong>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="todo-entry-card">
+                <h2 class="h4 mb-3">Add a task</h2>
+                <form asp-action="Create" method="post" class="d-flex flex-column gap-3">
+                    <div>
+                        <label asp-for="NewItemTitle" class="form-label">What needs to happen?</label>
+                        <input asp-for="NewItemTitle" class="form-control form-control-lg" maxlength="140" placeholder="Ship the slick new dashboard" />
+                        <span asp-validation-for="NewItemTitle" class="text-warning small"></span>
+                    </div>
+                    <button type="submit" class="btn btn-accent btn-lg">Add Todo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="todo-board mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Your tasks</h2>
+        <span class="board-caption">Toggle progress or remove finished work.</span>
+    </div>
+
+    @if (Model.Items.Count == 0)
+    {
+        <div class="empty-state shadow-sm">
+            <p class="mb-1 fs-5">Nothing on the board yet.</p>
+            <p class="mb-0 text-secondary">Add your first todo to get rolling.</p>
+        </div>
+    }
+    else
+    {
+        <div class="todo-list">
+            @foreach (var item in Model.Items)
+            {
+                <article class="todo-item @(item.IsComplete ? "is-complete" : string.Empty)">
+                    <div>
+                        <p class="todo-title mb-1">@item.Title</p>
+                        <small class="todo-meta">Created @item.CreatedAt.ToLocalTime().ToString("MMM d, h:mm tt")</small>
+                    </div>
+                    <div class="todo-actions">
+                        <form asp-action="Toggle" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-outline-light">
+                                @(item.IsComplete ? "Mark Active" : "Mark Done")
+                            </button>
+                        </form>
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
