@@ -1,6 +1,6 @@
-using congenial_octo_engine.Models;
+using Todo.Web.Models;
 
-namespace congenial_octo_engine.Services;
+namespace Todo.Web.Services;
 
 public interface ITodoStore
 {

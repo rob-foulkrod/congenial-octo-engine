@@ -1,17 +1,20 @@
 using System.Diagnostics;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
-using congenial_octo_engine.Models;
-using congenial_octo_engine.Services;
+using Todo.Web.Models;
+using Todo.Web.Services;
 
-namespace congenial_octo_engine.Controllers;
+namespace Todo.Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ITodoStore _todoStore;
+    private readonly ITodoWorkerGateway _todoWorkerGateway;
 
-    public HomeController(ITodoStore todoStore)
+    public HomeController(ITodoStore todoStore, ITodoWorkerGateway todoWorkerGateway)
     {
         _todoStore = todoStore;
+        _todoWorkerGateway = todoWorkerGateway;
     }
 
     public IActionResult Index()
@@ -21,11 +24,21 @@ public class HomeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create(TodoPageViewModel model)
+    public async Task<IActionResult> Create(TodoPageViewModel model)
     {
         if (string.IsNullOrWhiteSpace(model.NewItemTitle))
         {
             ModelState.AddModelError(nameof(TodoPageViewModel.NewItemTitle), "Give your task a name.");
+            return View("Index", BuildViewModel(model.NewItemTitle));
+        }
+
+        try
+        {
+            await _todoWorkerGateway.RecordTodoCreatedAsync(model.NewItemTitle.Trim(), HttpContext.TraceIdentifier, HttpContext.RequestAborted);
+        }
+        catch (RpcException ex) when (ex.StatusCode is Grpc.Core.StatusCode.Unavailable or Grpc.Core.StatusCode.DeadlineExceeded)
+        {
+            ModelState.AddModelError(nameof(TodoPageViewModel.NewItemTitle), "The private worker dependency is unavailable. Try again after the worker starts.");
             return View("Index", BuildViewModel(model.NewItemTitle));
         }
 

@@ -1,4 +1,4 @@
-namespace congenial_octo_engine.Models;
+namespace Todo.Web.Models;
 
 public class ErrorViewModel
 {

@@ -1,0 +1,11 @@
+**/.DS_Store
+**/.git
+**/.gitignore
+**/.vscode
+**/.vs
+**/.azure
+**/bin
+**/obj
+**/node_modules
+Dockerfile*
+README.md
